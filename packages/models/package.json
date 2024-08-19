@@ -1,0 +1,29 @@
+{
+  "name": "@pulseshelf/models",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup --minify --clean",
+    "migrate": "bunx drizzle-kit generate && bun run scripts/migrate.ts"
+  },
+  "dependencies": {
+    "@planetscale/database": "^1.19.0",
+    "drizzle-orm": "^0.33.0",
+    "nanoid": "^5.0.7"
+  },
+  "devDependencies": {
+    "bun-types": "^1.1.24",
+    "drizzle-kit": "^0.24.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4"
+  }
+}

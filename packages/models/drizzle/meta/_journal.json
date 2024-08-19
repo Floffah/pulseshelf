@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1723928033625,
+      "tag": "0000_hot_skullbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1723928383830,
+      "tag": "0001_handy_runaways",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1724060653059,
+      "tag": "0002_productive_brood",
+      "breakpoints": true
+    }
+  ]
+}

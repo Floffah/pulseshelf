@@ -1,0 +1,30 @@
+{
+  "name": "dndnotes",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "deps": "ncu -ws --root -x eslint",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "dev": "turbo run dev",
+    "setup": "turbo run setup",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "npm-check-updates": "^17.0.6",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
+    "turbo": "^2.0.14",
+    "turbo-ignore": "^2.0.14"
+  },
+  "packageManager": "bun@1.1.24",
+  "trustedDependencies": [
+    "@swc/core",
+    "@vercel/speed-insights",
+    "esbuild"
+  ]
+}
