@@ -1,9 +1,10 @@
+import { SESSION_TOKEN } from "@pulseshelf/lib";
+import { db, userSessions, users } from "@pulseshelf/models";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { parse } from "cookie";
 import { eq } from "drizzle-orm";
 
-import { SESSION_TOKEN } from "@pulseshelf/lib";
-import { db, userSessions, users } from "@pulseshelf/models";
+import { createTransformer } from "@/lib/transform";
 
 export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
     if (
@@ -13,6 +14,7 @@ export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
         return {
             req: opts.req,
             resHeaders: opts.resHeaders,
+            transform: await createTransformer(),
         };
     }
 
@@ -29,6 +31,7 @@ export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
         return {
             req: opts.req,
             resHeaders: opts.resHeaders,
+            transform: await createTransformer(),
         };
     }
 
@@ -40,6 +43,7 @@ export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
         return {
             req: opts.req,
             resHeaders: opts.resHeaders,
+            transform: await createTransformer(),
         };
     }
 
@@ -61,6 +65,9 @@ export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
         req: opts.req,
         resHeaders: opts.resHeaders,
         session,
+        transform: await createTransformer({
+            session,
+        }),
     };
 };
 

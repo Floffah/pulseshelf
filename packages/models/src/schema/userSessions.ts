@@ -1,4 +1,11 @@
-import {datetime, index, int, mysqlTable, serial, varchar,} from "drizzle-orm/mysql-core";
+import {
+    datetime,
+    index,
+    int,
+    mysqlTable,
+    serial,
+    varchar,
+} from "drizzle-orm/mysql-core";
 
 export const userSessions = mysqlTable(
     "user_sessions",

@@ -1,13 +1,16 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { User } from "@pulseshelf/models";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { api } from "@/lib/api";
+import { useUser } from "@/state/user";
 
 const formSchema = z.object({
     email: z.string().email(),
@@ -17,17 +20,31 @@ type FormValues = z.infer<typeof formSchema>;
 
 export default function LoginForm() {
     const router = useRouter();
+    const trpcUtils = api.useUtils();
+
+    const currentUser = useUser();
 
     const loginWithPassword =
         api.authentication.loginWithPassword.useMutation();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
+        disabled: currentUser.isLoading,
     });
+
+    useEffect(() => {
+        router.prefetch("/journal");
+
+        if (currentUser.isAuthenticated) {
+            router.push("/journal");
+        }
+    }, [currentUser, router]);
 
     const onSubmit = async (data: FormValues) => {
         try {
-            await loginWithPassword.mutateAsync(data);
+            const user = await loginWithPassword.mutateAsync(data);
+
+            trpcUtils.user.me.setData(undefined, user.user);
         } catch (error: any) {
             form.setError("email", {
                 type: "manual",
@@ -36,7 +53,7 @@ export default function LoginForm() {
             return;
         }
 
-        router.push("/home");
+        router.push("/journal");
     };
 
     return (
@@ -63,6 +80,7 @@ export default function LoginForm() {
                     color="primary"
                     type="submit"
                     className="flex-shrink-0 flex-grow"
+                    loading={currentUser.isLoading}
                 >
                     Login
                 </Form.Button>

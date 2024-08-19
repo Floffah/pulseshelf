@@ -1,14 +1,15 @@
 import clsx from "clsx";
 import { ComponentProps, forwardRef } from "react";
+import TextareaAutosize from "react-textarea-autosize";
 
-export interface InputProps extends ComponentProps<"input"> {
+export interface TextAreaProps extends ComponentProps<typeof TextareaAutosize> {
     error?: boolean;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
     ({ className, error, disabled, ...props }, ref) => {
         return (
-            <input
+            <TextareaAutosize
                 {...props}
                 ref={ref}
                 disabled={disabled}
@@ -26,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                             disabled,
                     },
                 )}
-            ></input>
+            ></TextareaAutosize>
         );
     },
 );

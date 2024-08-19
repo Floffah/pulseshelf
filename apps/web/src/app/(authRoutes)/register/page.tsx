@@ -3,12 +3,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthError } from "@pulseshelf/lib";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { api } from "@/lib/api";
+import { useUser } from "@/state/user";
 
 const formSchema = z.object({
     name: z.string().min(5).max(100),
@@ -21,11 +23,22 @@ type FormValues = z.infer<typeof formSchema>;
 export default function RegisterForm() {
     const router = useRouter();
 
+    const currentUser = useUser();
+
     const register = api.authentication.register.useMutation();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
+        disabled: currentUser.isLoading,
     });
+
+    useEffect(() => {
+        router.prefetch("/journal");
+
+        if (currentUser.isAuthenticated) {
+            router.push("/journal");
+        }
+    }, [currentUser, router]);
 
     const onSubmit = async (data: FormValues) => {
         if (data.password !== data.confirmPassword) {
@@ -86,7 +99,7 @@ export default function RegisterForm() {
                     size="md"
                     color="secondary"
                     type="button"
-                    link="/login"
+                    link="/"
                     className="flex-shrink-0 flex-grow"
                 >
                     Login
@@ -96,6 +109,7 @@ export default function RegisterForm() {
                     color="primary"
                     type="submit"
                     className="flex-shrink-0 flex-grow"
+                    loading={currentUser.isLoading}
                 >
                     Register
                 </Form.Button>

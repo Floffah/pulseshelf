@@ -1,19 +1,16 @@
 import { hash, verify } from "@node-rs/bcrypt";
-import { SESSION_TOKEN } from "@pulseshelf/lib";
-import { AuthError } from "@pulseshelf/lib";
+import { AuthError, SESSION_TOKEN } from "@pulseshelf/lib";
 import {
     db,
     registrationInvite,
-    userOAuthProviders,
     userSessions,
     users,
 } from "@pulseshelf/models";
 import { TRPCError } from "@trpc/server";
 import { serialize } from "cookie";
 import cryptoRandomString from "crypto-random-string";
-import { addDays } from "date-fns";
 import { addMonths } from "date-fns/addMonths";
-import { and, eq, inArray, like } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { procedure, router } from "@/trpc/trpc";
@@ -26,9 +23,9 @@ export const authenticationRouter = router({
                 password: z.string().min(8),
             }),
         )
-        .mutation(async (opts) => {
+        .mutation(async ({ ctx, input }) => {
             const user = await db.query.users.findFirst({
-                where: (users) => eq(users.email, opts.input.email),
+                where: (users) => eq(users.email, input.email),
             });
 
             if (!user || !user.passwordHash) {
@@ -39,7 +36,7 @@ export const authenticationRouter = router({
             }
 
             const passwordMatches = await verify(
-                opts.input.password,
+                input.password,
                 user.passwordHash,
             );
             if (!passwordMatches) {
@@ -62,13 +59,13 @@ export const authenticationRouter = router({
                     eq(sessions.id, parseInt(insertedSession.insertId)),
             });
 
-            const reqURL = new URL(opts.ctx.req.url);
+            const reqURL = new URL(ctx.req.url);
 
             if (
                 reqURL.hostname === "localhost" ||
                 reqURL.hostname.endsWith("dndnotes.app")
             ) {
-                opts.ctx.resHeaders.append(
+                ctx.resHeaders.append(
                     "Set-Cookie",
                     serialize(SESSION_TOKEN, token, {
                         path: "/",
@@ -84,8 +81,8 @@ export const authenticationRouter = router({
             }
 
             return {
-                user: user!,
-                session: session!,
+                user: ctx.transform.user(user!),
+                sessionToken: token,
             };
         }),
 
@@ -97,9 +94,9 @@ export const authenticationRouter = router({
                 password: z.string().min(8),
             }),
         )
-        .mutation(async (opts) => {
+        .mutation(async ({ ctx, input }) => {
             const invite = await db.query.registrationInvite.findFirst({
-                where: (invite) => eq(invite.email, opts.input.email),
+                where: (invite) => eq(invite.email, input.email),
             });
 
             if (!invite) {
@@ -110,7 +107,7 @@ export const authenticationRouter = router({
             }
 
             const existingWithEmail = await db.query.users.findFirst({
-                where: (user) => eq(user.email, opts.input.email),
+                where: (user) => eq(user.email, input.email),
             });
 
             if (existingWithEmail) {
@@ -121,7 +118,7 @@ export const authenticationRouter = router({
             }
 
             const nameExists = await db.query.users.findFirst({
-                where: (user) => eq(user.name, opts.input.name),
+                where: (user) => eq(user.name, input.name),
             });
 
             if (nameExists) {
@@ -131,11 +128,11 @@ export const authenticationRouter = router({
                 });
             }
 
-            const passwordHash = await hash(opts.input.password, 10);
+            const passwordHash = await hash(input.password, 10);
 
             const insertedUser = await db.insert(users).values({
-                name: opts.input.name,
-                email: opts.input.email,
+                name: input.name,
+                email: input.email,
                 passwordHash,
             });
             const user = await db.query.users.findFirst({
@@ -146,6 +143,6 @@ export const authenticationRouter = router({
                 .delete(registrationInvite)
                 .where(eq(registrationInvite.id, invite.id));
 
-            return user!;
+            return ctx.transform.user(user!);
         }),
 });

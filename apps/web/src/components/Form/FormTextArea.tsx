@@ -8,15 +8,15 @@ import {
     useFormField,
 } from "@/components/Form/FormField";
 import { FormContext } from "@/components/Form/index";
-import { Input } from "@/components/Input";
+import { TextArea } from "@/components/TextArea";
 
-export interface FormInputProps
+export interface FormTextAreaProps
     extends Omit<
-        ComponentProps<typeof Input> & FormFieldBaseProps,
+        ComponentProps<typeof TextArea> & FormFieldBaseProps,
         "children"
     > {}
 
-export function FormInput({ ...props }: FormInputProps) {
+export function FormTextArea({ ...props }: FormTextAreaProps) {
     const { form } = useContext(FormContext);
 
     const {
@@ -26,7 +26,7 @@ export function FormInput({ ...props }: FormInputProps) {
 
     return (
         <FormField {...fieldProps}>
-            <Input {...controlProps} {...form.register(name)} name={name} />
+            <TextArea {...controlProps} {...form.register(name)} name={name} />
         </FormField>
     );
 }

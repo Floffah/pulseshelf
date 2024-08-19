@@ -108,7 +108,7 @@ export function FormField({
             label && (
                 <label
                     className={clsx(
-                        "text-sm font-semibold text-black/40 dark:text-white/80",
+                        "text-sm font-semibold text-gray-600 dark:text-white/80",
                         {
                             "!text-red-500": errorMessage,
                         },
@@ -124,9 +124,9 @@ export function FormField({
         return (
             description && (
                 <p
-                    className={clsx("text-sm", {
-                        "text-red-500/30": errorMessage,
-                        "text-white/70": !errorMessage,
+                    className={clsx("text-sm font-light", {
+                        "text-red-500 dark:text-red-500/30": errorMessage,
+                        "text-gray-500 dark:text-white/70": !errorMessage,
                     })}
                 >
                     {description}

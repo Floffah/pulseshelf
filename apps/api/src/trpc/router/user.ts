@@ -1,19 +1,18 @@
-import { eq } from "drizzle-orm";
-
 import { db } from "@pulseshelf/models";
+import { eq } from "drizzle-orm";
 
 import { procedure, router } from "@/trpc/trpc";
 
 export const userRouter = router({
-    me: procedure.query(async (input) => {
-        if (!input.ctx.session) {
+    me: procedure.query(async ({ ctx }) => {
+        if (!ctx.session) {
             return null;
         }
 
-        const user = db.query.users.findFirst({
-            where: (users) => eq(users.id, input.ctx.session!.userId),
+        const user = await db.query.users.findFirst({
+            where: (users) => eq(users.id, ctx.session!.userId),
         });
 
-        return user ?? null;
+        return !!user ? ctx.transform.user(user) : null;
     }),
 });

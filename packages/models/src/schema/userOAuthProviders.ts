@@ -1,6 +1,12 @@
-import {index, int, mysqlTable, serial, varchar,} from "drizzle-orm/mysql-core";
+import {
+    index,
+    int,
+    mysqlTable,
+    serial,
+    varchar,
+} from "drizzle-orm/mysql-core";
 
-import {oAuthProviderEnum} from "@/schema/enums";
+import { oAuthProviderEnum } from "@/schema/enums";
 
 export const userOAuthProviders = mysqlTable(
     "user_oauth_providers",
