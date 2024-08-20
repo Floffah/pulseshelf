@@ -26,7 +26,32 @@ export function populateMetadata(
             description,
             ...override.twitter,
         },
-        icons: [],
+        icons: [
+            {
+                url: "/brand/pulseshelf16.png",
+                rel: "icon",
+                type: "image/png",
+                sizes: "16x16",
+            },
+            {
+                url: "/brand/pulseshelf32.png",
+                rel: "icon",
+                type: "image/png",
+                sizes: "32x32",
+            },
+            {
+                url: "/brand/pulseshelf64.png",
+                rel: "icon",
+                type: "image/png",
+                sizes: "64x64",
+            },
+            {
+                url: "/brand/pulseshelf.png",
+                rel: "icon",
+                type: "image/png",
+                sizes: "1024x1024",
+            },
+        ],
         ...override,
     };
 }

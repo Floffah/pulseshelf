@@ -1,6 +1,6 @@
-import poweredByVercelImage from "../../../public/images/brands/poweredByVercel.svg";
-import spotifyImage from "../../../public/images/brands/spotify.png";
 import Image from "next/image";
+import poweredByVercelImage from "~/assets/brands/poweredByVercel.svg";
+import spotifyImage from "~/assets/brands/spotify.png";
 
 export default function AuthRoutesLayout({ children }) {
     return (
