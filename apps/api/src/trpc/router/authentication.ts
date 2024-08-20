@@ -49,23 +49,19 @@ export const authenticationRouter = router({
             const token = cryptoRandomString({ length: 64 });
             const expiresAt = addMonths(new Date(), 6);
 
-            const insertedSession = await db.insert(userSessions).values({
+            await db.insert(userSessions).values({
                 userId: user.id,
                 token,
                 expiresAt,
-            });
-            const session = await db.query.userSessions.findFirst({
-                where: (sessions) =>
-                    eq(sessions.id, parseInt(insertedSession.insertId)),
             });
 
             const reqURL = new URL(ctx.req.url);
 
             if (
                 reqURL.hostname === "localhost" ||
-                reqURL.hostname.endsWith("dndnotes.app")
+                reqURL.hostname.endsWith("pulseshelf.com")
             ) {
-                ctx.resHeaders.append(
+                ctx.resHeaders.set(
                     "Set-Cookie",
                     serialize(SESSION_TOKEN, token, {
                         path: "/",

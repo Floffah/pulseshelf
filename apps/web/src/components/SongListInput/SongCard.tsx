@@ -10,7 +10,7 @@ export function SongCard({ songId, onRemove }: SongCardProps) {
     const song = api.music.getTrack.useQuery({ id: songId });
 
     return (
-        <div className="flex items-center gap-2 rounded-lg border border-gray-200 p-2 text-left hover:bg-gray-200 dark:border-white/10 dark:hover:bg-gray-800">
+        <div className="flex items-center gap-2 rounded-lg border border-gray-300 p-2 text-left hover:bg-gray-200 dark:border-white/10 dark:hover:bg-gray-800">
             {song.isLoading && <Loader />}
 
             {song.error && (
