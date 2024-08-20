@@ -1,5 +1,5 @@
 {
-  "name": "dndnotes",
+  "name": "pulseshelf",
   "private": true,
   "workspaces": [
     "apps/*",

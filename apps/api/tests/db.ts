@@ -1,7 +1,6 @@
 import { Client } from "@planetscale/database";
+import { schema } from "@pulseshelf/models";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
-
-import { schema } from "@dndnotes/models";
 
 export const client = new Client({
     host: process.env.TEST_DB_HOST,

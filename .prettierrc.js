@@ -15,7 +15,7 @@ module.exports = {
         "reflect-metadata",
         "<THIRD_PARTY_MODULES>",
         "^~icons/(.*)$",
-        "^@dndnotes/(.*)$",
+        "^@pulseshelf/(.*)$",
         "@/(.*)$",
     ],
     importOrderSeparation: true,
