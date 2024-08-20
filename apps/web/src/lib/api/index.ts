@@ -1,10 +1,11 @@
-import type { AppRouter } from "@pulseshelf/api";
-import { SESSION_TOKEN } from "@pulseshelf/lib";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import { ssrPrepass } from "@trpc/next/ssrPrepass";
 import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
+
+import type { AppRouter } from "@pulseshelf/api";
+import { SESSION_TOKEN } from "@pulseshelf/lib";
 
 import { queryClientConfig } from "@/lib/api/reactQuery";
 

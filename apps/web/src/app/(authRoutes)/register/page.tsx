@@ -1,11 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AuthError } from "@pulseshelf/lib";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { AuthError } from "@pulseshelf/lib";
 
 import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";

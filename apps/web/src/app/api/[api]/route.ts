@@ -1,5 +1,6 @@
-import { appRouter, createTRPCContext } from "@pulseshelf/api";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+
+import { appRouter, createTRPCContext } from "@pulseshelf/api";
 
 const handler = (req: Request) =>
     fetchRequestHandler({

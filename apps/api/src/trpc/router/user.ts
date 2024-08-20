@@ -1,5 +1,6 @@
-import { db } from "@pulseshelf/models";
 import { eq } from "drizzle-orm";
+
+import { db } from "@pulseshelf/models";
 
 import { procedure, router } from "@/trpc/trpc";
 

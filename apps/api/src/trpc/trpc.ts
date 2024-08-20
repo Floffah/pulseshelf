@@ -1,7 +1,8 @@
-import { AuthError } from "@pulseshelf/lib";
-import type { UserSession } from "@pulseshelf/models";
 import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
+
+import { AuthError } from "@pulseshelf/lib";
+import type { UserSession } from "@pulseshelf/models";
 
 import { TRPCContext } from "@/trpc/createTRPCContext";
 
