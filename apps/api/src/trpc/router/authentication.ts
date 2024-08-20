@@ -9,7 +9,7 @@ import { z } from "zod";
 import { AuthError, SESSION_TOKEN } from "@pulseshelf/lib";
 import {
     db,
-    registrationInvite,
+    registrationInvites,
     userSessions,
     users,
 } from "@pulseshelf/models";
@@ -92,7 +92,7 @@ export const authenticationRouter = router({
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            const invite = await db.query.registrationInvite.findFirst({
+            const invite = await db.query.registrationInvites.findFirst({
                 where: (invite) => eq(invite.email, input.email),
             });
 
@@ -137,8 +137,8 @@ export const authenticationRouter = router({
             });
 
             await db
-                .delete(registrationInvite)
-                .where(eq(registrationInvite.id, invite.id));
+                .delete(registrationInvites)
+                .where(eq(registrationInvites.id, invite.id));
 
             return ctx.transform.user(user!);
         }),

@@ -1,10 +1,12 @@
 import * as Popover from "@radix-ui/react-popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
+import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import BinIcon from "~icons/mdi/bin";
 import PlusIcon from "~icons/mdi/plus";
 
 import { Form } from "@/components/Form";
@@ -21,6 +23,8 @@ interface SongPickerButtonProps {
 }
 
 export function SongPickerButton({ onPick }: SongPickerButtonProps) {
+    const trpcUtils = api.useUtils();
+
     const [open, setOpen] = useState(false);
 
     const searchSongMutation = api.music.searchTrack.useMutation();
@@ -82,16 +86,27 @@ export function SongPickerButton({ onPick }: SongPickerButtonProps) {
                             className="flex items-center gap-2 rounded-lg border border-gray-200 p-2 text-left hover:bg-gray-200 dark:border-white/10 dark:hover:bg-gray-800"
                             onClick={() => {
                                 onPick(song.id);
+                                trpcUtils.music.getTrack.setData(
+                                    { id: song.id },
+                                    song,
+                                );
                                 setOpen(false);
                             }}
                         >
-                            <img
+                            <Image
                                 src={song.album.images[0].url}
                                 alt="Album cover"
+                                width={48}
+                                height={48}
                                 className="h-12 w-12 rounded-lg"
                             />
                             <div>
-                                <p className="font-semibold">{song.name}</p>
+                                <p className="font-semibold">
+                                    {song.name}{" "}
+                                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                                        • {song.album.name}
+                                    </span>
+                                </p>
                                 <p className="text-sm text-gray-400 dark:text-gray-500">
                                     {song.artists.join(", ")}
                                 </p>

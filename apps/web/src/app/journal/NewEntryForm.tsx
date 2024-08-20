@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { Form } from "@/components/Form";
 import { SongListInput } from "@/components/SongListInput";
+import { api } from "@/lib/api";
 
 const formSchema = z.object({
     rating: z.number().int().min(1).max(5),
@@ -16,6 +17,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export function NewEntryForm() {
+    const createEntryMutation = api.journal.createEntry.useMutation();
+
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -27,7 +30,11 @@ export function NewEntryForm() {
     const currentRating = form.watch("rating");
     const ratingSet = typeof currentRating === "number";
 
-    const onSubmit = (data: FormValues) => {};
+    const onSubmit = async (data: FormValues) => {
+        await createEntryMutation.mutateAsync(data);
+
+        form.reset();
+    };
 
     return (
         <Form
@@ -56,6 +63,7 @@ export function NewEntryForm() {
                                     currentRating === index + 1,
                             },
                         )}
+                        type="button"
                         onClick={() => {
                             form.setValue("rating", index + 1);
                         }}
@@ -64,6 +72,12 @@ export function NewEntryForm() {
                     </button>
                 ))}
             </div>
+
+            {!ratingSet && createEntryMutation.isSuccess && (
+                <p className="w-full py-12 text-center text-green-400 dark:text-green-500">
+                    Rating saved! Create another?
+                </p>
+            )}
 
             {ratingSet && (
                 <>
@@ -83,6 +97,10 @@ export function NewEntryForm() {
                         }
                         maxSongs={3}
                     />
+
+                    <Form.Button color="primary" size="md">
+                        Save
+                    </Form.Button>
                 </>
             )}
         </Form>

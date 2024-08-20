@@ -1,3 +1,8 @@
+import Image from "next/image";
+
+import BinIcon from "~icons/mdi/bin";
+
+import { Icon } from "@/components/Icon";
 import { Loader } from "@/components/Loader";
 import { api } from "@/lib/api";
 
@@ -21,17 +26,30 @@ export function SongCard({ songId, onRemove }: SongCardProps) {
 
             {song.data && (
                 <>
-                    <img
+                    <Image
                         src={song.data.album.images[0].url}
                         alt="Album cover"
-                        className="h-12 w-12 rounded-lg"
+                        width={48}
+                        height={48}
+                        className="h-12 w-12 flex-shrink-0 rounded-lg"
                     />
-                    <div>
-                        <p className="font-semibold">{song.data.name}</p>
+                    <div className="flex-grow">
+                        <p className="font-semibold">
+                            {song.data.name}{" "}
+                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                                • {song.data.album.name}
+                            </span>
+                        </p>
                         <p className="text-sm text-gray-400 dark:text-gray-500">
                             {song.data.artists.join(", ")}
                         </p>
                     </div>
+                    <button className="flex-shrink-0" onClick={onRemove}>
+                        <Icon
+                            icon={BinIcon}
+                            className="h-6 w-6 text-gray-400 dark:text-gray-500"
+                        />
+                    </button>
                 </>
             )}
         </div>

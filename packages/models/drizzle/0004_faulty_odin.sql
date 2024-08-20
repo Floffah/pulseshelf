@@ -1,0 +1,1 @@
+ALTER TABLE `journal_entries` ADD `created_at` datetime DEFAULT now() NOT NULL;

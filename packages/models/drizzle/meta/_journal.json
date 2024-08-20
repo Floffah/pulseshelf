@@ -22,6 +22,20 @@
       "when": 1724060653059,
       "tag": "0002_productive_brood",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1724161918675,
+      "tag": "0003_magenta_steel_serpent",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1724178448485,
+      "tag": "0004_faulty_odin",
+      "breakpoints": true
     }
   ]
 }

@@ -26,7 +26,7 @@
     "cookie": "^0.6.0",
     "crypto-random-string": "^5.0.0",
     "date-fns": "^3.6.0",
-    "discord-api-types": "^0.37.95",
+    "discord-api-types": "^0.37.96",
     "drizzle-orm": "^0.33.0",
     "nanoid": "^5.0.7",
     "superjson": "^2.2.1",

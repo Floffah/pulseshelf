@@ -36,7 +36,7 @@ export function SongListInput({
                     songId={songId}
                     onRemove={() =>
                         setSongIds((prevSongIds) =>
-                            prevSongIds.filter((id) => id === songId),
+                            prevSongIds.filter((id) => id !== songId),
                         )
                     }
                 />
