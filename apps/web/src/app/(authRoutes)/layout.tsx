@@ -10,6 +10,17 @@ export default function AuthRoutesLayout({ children }) {
 
                 {children}
 
+                <p className="text-center text-sm dark:text-gray-400">
+                    PulseShelf is currently invite-only. Request access on{" "}
+                    <a
+                        href="https://discord.gg/DsSeGSc5na"
+                        className="underline dark:text-blue-400"
+                    >
+                        the Discord
+                    </a>
+                    .
+                </p>
+
                 <div className="mt-6 flex items-center justify-center gap-2">
                     <a
                         href="https://vercel.com/?utm_source=pulseshelf"
