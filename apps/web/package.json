@@ -15,6 +15,7 @@
     "@pulseshelf/lib": "workspace:*",
     "@pulseshelf/models": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.0",
+    "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-popover": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@react-spring/web": "^9.7.4",

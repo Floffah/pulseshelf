@@ -105,4 +105,66 @@ export const journalRouter = router({
 
             return ctx.transform.journalEntry(journalEntry);
         }),
+
+    setFavourite: authedProcedure
+        .input(
+            z.object({
+                journalId: z.string(),
+                favourite: z.boolean().default(true),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            const journalEntry = await db.query.journalEntries.findFirst({
+                where: (journalEntries) =>
+                    eq(journalEntries.publicId, input.journalId),
+            });
+
+            if (!journalEntry) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                });
+            }
+
+            if (journalEntry.createdBy !== ctx.session.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                });
+            }
+
+            await db
+                .update(journalEntries)
+                .set({
+                    favourite: input.favourite,
+                })
+                .where(eq(journalEntries.id, journalEntry.id));
+
+            return ctx.transform.journalEntry(journalEntry);
+        }),
+
+    deleteEntry: authedProcedure
+        .input(z.object({ journalId: z.string() }))
+        .mutation(async ({ ctx, input }) => {
+            const journalEntry = await db.query.journalEntries.findFirst({
+                where: (journalEntries) =>
+                    eq(journalEntries.publicId, input.journalId),
+            });
+
+            if (!journalEntry) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                });
+            }
+
+            if (journalEntry.createdBy !== ctx.session.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                });
+            }
+
+            await db
+                .delete(journalEntries)
+                .where(eq(journalEntries.id, journalEntry.id));
+
+            return true;
+        }),
 });
