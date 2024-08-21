@@ -78,7 +78,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
                 {icon &&
                     !loading &&
-                    (typeof icon === "string" ? (
+                    (typeof icon === "function" ? (
                         <Icon
                             className={clsx({
                                 "opacity-60": disabled,

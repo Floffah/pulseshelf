@@ -4,9 +4,9 @@
   "types": "./types/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
+      "types": "./types/index.d.ts",
       "require": "./dist/index.js",
-      "types": "./types/index.d.ts"
+      "import": "./dist/index.mjs"
     }
   },
   "scripts": {

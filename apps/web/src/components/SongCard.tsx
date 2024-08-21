@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 
 import BinIcon from "~icons/mdi/bin";
@@ -8,14 +10,23 @@ import { api } from "@/lib/api";
 
 interface SongCardProps {
     songId: string;
-    onRemove: () => void;
+    onRemove?: () => void;
 }
 
 export function SongCard({ songId, onRemove }: SongCardProps) {
     const song = api.music.getTrack.useQuery({ id: songId });
 
     return (
-        <div className="flex items-center gap-2 rounded-lg border border-gray-300 p-2 text-left hover:bg-gray-200 dark:border-white/10 dark:hover:bg-gray-800">
+        <a
+            href={
+                song.data
+                    ? `https://open.spotify.com/track/${song.data.id}`
+                    : "#"
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-lg border border-gray-300 p-2 text-left hover:bg-gray-200 dark:border-white/10 dark:hover:bg-gray-800"
+        >
             {song.isLoading && <Loader />}
 
             {song.error && (
@@ -44,14 +55,16 @@ export function SongCard({ songId, onRemove }: SongCardProps) {
                             {song.data.artists.join(", ")}
                         </p>
                     </div>
-                    <button className="flex-shrink-0" onClick={onRemove}>
-                        <Icon
-                            icon={BinIcon}
-                            className="h-6 w-6 text-gray-400 dark:text-gray-500"
-                        />
-                    </button>
+                    {onRemove && (
+                        <button className="flex-shrink-0" onClick={onRemove}>
+                            <Icon
+                                icon={BinIcon}
+                                className="h-6 w-6 text-gray-400 dark:text-gray-500"
+                            />
+                        </button>
+                    )}
                 </>
             )}
-        </div>
+        </a>
     );
 }

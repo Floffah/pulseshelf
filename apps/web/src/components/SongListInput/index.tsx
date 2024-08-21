@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { ComponentProps, useEffect, useState } from "react";
 
-import { SongCard } from "@/components/SongListInput/SongCard";
+import { SongCard } from "@/components/SongCard";
 import { SongPickerButton } from "@/components/SongListInput/SongPickerButton";
 
 export interface SongPickerProps

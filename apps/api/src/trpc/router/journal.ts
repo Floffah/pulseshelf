@@ -1,12 +1,72 @@
 import { TRPCError } from "@trpc/server";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
+import { JournalFilter } from "@pulseshelf/lib";
 import { db, journalEntries, journalEntrySongs } from "@pulseshelf/models";
 
+import { JournalEntryAPIModel } from "@/lib";
 import { authedProcedure, router } from "@/trpc/trpc";
 
 export const journalRouter = router({
+    list: authedProcedure
+        .input(
+            z.object({
+                filter: z.nativeEnum(JournalFilter),
+                limit: z.number().int().max(50).min(5).default(10),
+                cursor: z.number().int().min(0).default(0),
+            }),
+        )
+        .query(async ({ ctx, input }) => {
+            const results = await db.query.journalEntries.findMany({
+                where: (journalEntries) => {
+                    const equalsMe = eq(
+                        journalEntries.createdBy,
+                        ctx.session.userId,
+                    );
+
+                    if (input.filter === JournalFilter.FAVOURITES) {
+                        return and(
+                            equalsMe,
+                            eq(journalEntries.favourite, true),
+                        );
+                    }
+
+                    return equalsMe;
+                },
+                limit: input.limit,
+                offset: input.cursor,
+            });
+
+            let items: {
+                entry: JournalEntryAPIModel;
+                songs: string[];
+                tags: string[];
+            }[] = [];
+
+            for (const entry of results) {
+                const songs = await db.query.journalEntrySongs.findMany({
+                    where: (journalEntrySongs) =>
+                        eq(journalEntrySongs.journalId, entry.id),
+                });
+
+                const tags = await db.query.journalTags.findMany({
+                    where: (journalTags) => eq(journalTags.journalId, entry.id),
+                });
+
+                items.push({
+                    entry: ctx.transform.journalEntry(entry),
+                    songs: songs.map((song) => song.songId),
+                    tags: tags.map((tag) => tag.tag),
+                });
+            }
+
+            return {
+                items,
+                nextCursor: input.cursor + results.length,
+            };
+        }),
+
     createEntry: authedProcedure
         .input(
             z.object({
@@ -19,6 +79,7 @@ export const journalRouter = router({
             const insertResult = await db.insert(journalEntries).values({
                 content: input.content,
                 rating: input.rating,
+                createdBy: ctx.session.userId,
             });
             const journalEntryID = parseInt(insertResult.insertId);
 

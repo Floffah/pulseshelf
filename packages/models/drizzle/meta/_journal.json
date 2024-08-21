@@ -36,6 +36,13 @@
       "when": 1724178448485,
       "tag": "0004_faulty_odin",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1724242948659,
+      "tag": "0005_bored_talos",
+      "breakpoints": true
     }
   ]
 }
