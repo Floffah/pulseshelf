@@ -15,11 +15,11 @@
     "build": "tsup --minify --clean"
   },
   "dependencies": {
-    "@tiptap/extension-underline": "^2.6.4",
-    "@tiptap/starter-kit": "^2.6.4"
+    "@tiptap/extension-underline": "^2.6.5",
+    "@tiptap/starter-kit": "^2.6.5"
   },
   "devDependencies": {
-    "bun-types": "^1.1.24",
+    "bun-types": "^1.1.25",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   }
