@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { forwardRef, useImperativeHandle, useMemo, useState } from "react";
 
 import CollapseHorizontalIcon from "~icons/mdi/collapse-horizontal";
 import ExpandHorizontalIcon from "~icons/mdi/expand-horizontal";
@@ -17,7 +17,11 @@ import { SongCard } from "@/components/SongCard";
 import { api } from "@/lib/api";
 import { useUser } from "@/state/user";
 
-export function EntryList() {
+export interface EntryListRef {
+    refresh: () => Promise<void>;
+}
+
+export const EntryList = forwardRef<EntryListRef>((_props, ref) => {
     const user = useUser();
 
     const [filter, setFilter] = useState(JournalFilter.ALL);
@@ -31,6 +35,12 @@ export function EntryList() {
             enabled: user.isAuthenticated,
         },
     );
+
+    useImperativeHandle(ref, () => ({
+        refresh: async () => {
+            await journalEntries.refetch();
+        },
+    }));
 
     return (
         <div className="flex flex-col gap-2">
@@ -59,7 +69,7 @@ export function EntryList() {
             </div>
         </div>
     );
-}
+});
 
 interface EntryProps {
     entry: JournalEntryAPIModel;

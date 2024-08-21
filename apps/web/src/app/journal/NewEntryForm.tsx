@@ -18,7 +18,11 @@ const formSchema = z.object({
 });
 type FormValues = z.infer<typeof formSchema>;
 
-export function NewEntryForm() {
+export function NewEntryForm({
+    onEntryCreated,
+}: {
+    onEntryCreated: () => void;
+}) {
     const user = useUser();
 
     const createEntryMutation = api.journal.createEntry.useMutation();
@@ -36,6 +40,8 @@ export function NewEntryForm() {
 
     const onSubmit = async (data: FormValues) => {
         await createEntryMutation.mutateAsync(data);
+
+        await onEntryCreated();
 
         form.reset();
     };

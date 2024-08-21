@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { JournalFilter } from "@pulseshelf/lib";
@@ -36,6 +36,7 @@ export const journalRouter = router({
                 },
                 limit: input.limit,
                 offset: input.cursor,
+                orderBy: [desc(journalEntries.createdAt)],
             });
 
             let items: {
