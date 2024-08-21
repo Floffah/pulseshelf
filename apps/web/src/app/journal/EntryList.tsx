@@ -12,6 +12,7 @@ import type { JournalEntry } from "@pulseshelf/models";
 
 import { Button } from "@/components/Button";
 import { Icon } from "@/components/Icon";
+import { Loader } from "@/components/Loader";
 import { SongCard } from "@/components/SongCard";
 import { api } from "@/lib/api";
 import { useUser } from "@/state/user";
@@ -38,6 +39,18 @@ export function EntryList() {
             </h2>
 
             <div className="flex flex-col gap-2">
+                {journalEntries.isLoading && (
+                    <p className="flex w-full items-center justify-center py-10 text-center text-gray-400 dark:text-gray-400">
+                        <Loader />
+                    </p>
+                )}
+
+                {!journalEntries.isLoading && !journalEntries.data && (
+                    <p className="w-full py-16 text-center text-sm text-gray-400 dark:text-gray-500">
+                        Add your first entry to start tracking.
+                    </p>
+                )}
+
                 {journalEntries.data?.pages.map((page, i) =>
                     page.items.map(({ entry, songs }, j) => (
                         <Entry key={`${i}-${j}`} entry={entry} songs={songs} />
