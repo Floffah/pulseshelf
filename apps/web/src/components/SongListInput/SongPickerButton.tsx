@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import BinIcon from "~icons/mdi/bin";
 import PlusIcon from "~icons/mdi/plus";
 
 import { Form } from "@/components/Form";

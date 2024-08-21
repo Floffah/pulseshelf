@@ -25,6 +25,7 @@ export const EntryList = forwardRef<EntryListRef>((_props, ref) => {
         {
             getNextPageParam: (lastPage) => lastPage.nextCursor,
             enabled: user.isAuthenticated,
+            refetchOnMount: true,
         },
     );
 
@@ -54,8 +55,13 @@ export const EntryList = forwardRef<EntryListRef>((_props, ref) => {
                 )}
 
                 {journalEntries.data?.pages.map((page, i) =>
-                    page.items.map(({ entry, songs }, j) => (
-                        <Entry key={`${i}-${j}`} entry={entry} songs={songs} />
+                    page.items.map(({ entry, songs, tags }, j) => (
+                        <Entry
+                            key={`${i}-${j}`}
+                            entry={entry}
+                            songs={songs}
+                            tags={tags}
+                        />
                     )),
                 )}
             </div>

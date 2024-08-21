@@ -56,7 +56,13 @@ export function SongCard({ songId, onRemove }: SongCardProps) {
                         </p>
                     </div>
                     {onRemove && (
-                        <button className="flex-shrink-0" onClick={onRemove}>
+                        <button
+                            className="flex-shrink-0"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                onRemove();
+                            }}
+                        >
                             <Icon
                                 icon={BinIcon}
                                 className="h-6 w-6 text-gray-400 dark:text-gray-500"

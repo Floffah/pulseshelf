@@ -1,14 +1,57 @@
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq } from "drizzle-orm";
+import { MySqlUpdateSetSource } from "drizzle-orm/mysql-core";
 import { z } from "zod";
 
 import { JournalFilter } from "@pulseshelf/lib";
-import { db, journalEntries, journalEntrySongs } from "@pulseshelf/models";
+import {
+    db,
+    journalEntries,
+    journalEntrySongs,
+    journalTags,
+} from "@pulseshelf/models";
 
 import { JournalEntryAPIModel } from "@/lib";
 import { authedProcedure, router } from "@/trpc/trpc";
 
 export const journalRouter = router({
+    get: authedProcedure
+        .input(z.object({ journalId: z.string() }))
+        .query(async ({ ctx, input }) => {
+            const journalEntry = await db.query.journalEntries.findFirst({
+                where: (journalEntries) =>
+                    eq(journalEntries.publicId, input.journalId),
+            });
+
+            if (!journalEntry) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                });
+            }
+
+            if (journalEntry.createdBy !== ctx.session.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                });
+            }
+
+            const songs = await db.query.journalEntrySongs.findMany({
+                where: (journalEntrySongs) =>
+                    eq(journalEntrySongs.journalId, journalEntry.id),
+            });
+
+            const tags = await db.query.journalTags.findMany({
+                where: (journalTags) =>
+                    eq(journalTags.journalId, journalEntry.id),
+            });
+
+            return {
+                entry: ctx.transform.journalEntry(journalEntry),
+                songs: songs.map((song) => song.songId),
+                tags: tags.map((tag) => tag.tag),
+            };
+        }),
+
     list: authedProcedure
         .input(
             z.object({
@@ -74,6 +117,7 @@ export const journalRouter = router({
                 content: z.string().max(65536),
                 rating: z.number().min(1).max(5),
                 songIds: z.array(z.string().max(64)),
+                tags: z.array(z.string().max(65536)).optional(),
             }),
         )
         .mutation(async ({ ctx, input }) => {
@@ -101,6 +145,103 @@ export const journalRouter = router({
                     source: "SPOTIFY",
                     songId: songId,
                 });
+            }
+
+            if (input.tags && Array.isArray(input.tags)) {
+                for (const tag of input.tags) {
+                    await db.insert(journalTags).values({
+                        journalId: journalEntryID,
+                        tag,
+                    });
+                }
+            }
+
+            return ctx.transform.journalEntry(journalEntry);
+        }),
+
+    editEntry: authedProcedure
+        .input(
+            z.object({
+                journalId: z.string(),
+                content: z.string().max(65536).optional(),
+                rating: z.number().min(1).max(5).optional(),
+                songIds: z.array(z.string().max(64)).optional(),
+            }),
+        )
+        .mutation(async ({ ctx, input }) => {
+            const journalEntry = await db.query.journalEntries.findFirst({
+                where: (journalEntries) =>
+                    eq(journalEntries.publicId, input.journalId),
+            });
+
+            if (!journalEntry) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                });
+            }
+
+            if (journalEntry.createdBy !== ctx.session.userId) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                });
+            }
+
+            const setValues: MySqlUpdateSetSource<typeof journalEntries> = {};
+
+            if (typeof input.content === "string") {
+                setValues.content = input.content;
+            }
+
+            if (typeof input.rating === "number") {
+                setValues.rating = input.rating;
+            }
+
+            if (Object.keys(setValues).length > 0) {
+                await db
+                    .update(journalEntries)
+                    .set(setValues)
+                    .where(eq(journalEntries.id, journalEntry.id));
+            }
+
+            if (input.songIds && Array.isArray(input.songIds)) {
+                const existingSongs = await db.query.journalEntrySongs.findMany(
+                    {
+                        where: (journalEntrySongs) =>
+                            eq(journalEntrySongs.journalId, journalEntry.id),
+                    },
+                );
+                const existingSongIds = existingSongs.map(
+                    (song) => song.songId,
+                );
+
+                const toRemove = existingSongIds.filter(
+                    (songId) => !input.songIds!.includes(songId),
+                );
+                const toAdd = input.songIds.filter(
+                    (songId) => !existingSongIds.includes(songId),
+                );
+
+                for (const songId of toRemove) {
+                    await db
+                        .delete(journalEntrySongs)
+                        .where(
+                            and(
+                                eq(
+                                    journalEntrySongs.journalId,
+                                    journalEntry.id,
+                                ),
+                                eq(journalEntrySongs.songId, songId),
+                            ),
+                        );
+                }
+
+                for (const songId of toAdd) {
+                    await db.insert(journalEntrySongs).values({
+                        journalId: journalEntry.id,
+                        source: "SPOTIFY",
+                        songId,
+                    });
+                }
             }
 
             return ctx.transform.journalEntry(journalEntry);

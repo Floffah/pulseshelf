@@ -35,9 +35,15 @@ export function SongListInput({
                     key={songId}
                     songId={songId}
                     onRemove={() =>
-                        setSongIds((prevSongIds) =>
-                            prevSongIds.filter((id) => id !== songId),
-                        )
+                        setSongIds((prevSongIds) => {
+                            const newSongIds = prevSongIds.filter(
+                                (id) => id !== songId,
+                            );
+
+                            onChange?.(newSongIds);
+
+                            return newSongIds;
+                        })
                     }
                 />
             ))}

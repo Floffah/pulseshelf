@@ -6,8 +6,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import type { User } from "@pulseshelf/models";
-
 import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { api } from "@/lib/api";

@@ -1,11 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import { useMemo } from "react";
+import Link from "next/link";
+import { useEffect, useMemo } from "react";
+import { Remark } from "react-remark";
 
 import BinOutlineIcon from "~icons/mdi/bin-outline";
 import HeartIcon from "~icons/mdi/heart";
 import HeartOutlineIcon from "~icons/mdi/heart-outline";
+import PencilOutlineIcon from "~icons/mdi/pencil-outline";
 import StarIcon from "~icons/mdi/star";
 
 import type { JournalEntryAPIModel } from "@pulseshelf/api";
@@ -19,9 +22,10 @@ import { useDialogs } from "@/providers/DialogProvider";
 export interface EntryProps {
     entry: JournalEntryAPIModel;
     songs: string[];
+    tags: string[];
 }
 
-export function Entry({ entry, songs }: EntryProps) {
+export function Entry({ entry, songs, tags }: EntryProps) {
     const trpcUtils = api.useUtils();
     const dialogs = useDialogs();
 
@@ -37,6 +41,19 @@ export function Entry({ entry, songs }: EntryProps) {
         [],
     );
 
+    useEffect(() => {
+        trpcUtils.journal.get.setData(
+            {
+                journalId: entry.id,
+            },
+            {
+                entry,
+                songs,
+                tags,
+            },
+        );
+    }, []);
+
     return (
         <div className="flex flex-col gap-4 rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
             <div className="flex flex-col">
@@ -45,6 +62,13 @@ export function Entry({ entry, songs }: EntryProps) {
                         {dateFormatter.format(entry.createdAt)}
                     </p>
 
+                    <Link href={`/journal/${entry.id}/edit`}>
+                        <Icon
+                            icon={PencilOutlineIcon}
+                            label="edit"
+                            className="h-5 w-5 flex-shrink-0 text-gray-600 dark:text-gray-400"
+                        />
+                    </Link>
                     <button
                         onClick={() => {
                             setFavouriteMutation.mutate({
@@ -150,7 +174,9 @@ export function Entry({ entry, songs }: EntryProps) {
                 </p>
             </div>
             <div className="flex flex-col gap-2 text-sm">
-                <p>{entry.content}</p>
+                <div className="prose dark:prose-invert">
+                    <Remark>{entry.content}</Remark>
+                </div>
 
                 {songs.map((songId) => (
                     <SongCard key={songId} songId={songId} />
