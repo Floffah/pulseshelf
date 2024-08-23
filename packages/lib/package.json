@@ -15,8 +15,8 @@
     "build": "tsup --minify --clean"
   },
   "dependencies": {
-    "@tiptap/extension-underline": "^2.6.5",
-    "@tiptap/starter-kit": "^2.6.5"
+    "@tiptap/extension-underline": "^2.6.6",
+    "@tiptap/starter-kit": "^2.6.6"
   },
   "devDependencies": {
     "bun-types": "^1.1.25",
