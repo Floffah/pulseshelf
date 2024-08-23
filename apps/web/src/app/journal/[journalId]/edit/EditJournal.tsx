@@ -73,7 +73,18 @@ export function EditJournal({ journalId }: { journalId: string }) {
         >
             <Form.TextArea
                 label="Entry"
-                description="Write as much as you want!"
+                description={
+                    <>
+                        Write as much as you want! Uses{" "}
+                        <a
+                            href="https://www.markdownguide.org/cheat-sheet/"
+                            className="text-blue-600/60 underline dark:text-blue-400"
+                        >
+                            Markdown
+                        </a>
+                        .
+                    </>
+                }
                 name="content"
                 placeholder="How are you feeling?"
                 minRows={3}
