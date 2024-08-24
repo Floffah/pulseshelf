@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { Form } from "@/components/Form";
 import { Loader } from "@/components/Loader";
+import { RatingEmoji } from "@/components/RatingEmoji";
 import { SongListInput } from "@/components/SongListInput";
 import { TagList } from "@/components/TagList";
 import { api } from "@/lib/api";
@@ -76,7 +77,7 @@ export function NewEntryForm({
                         <button
                             key={index}
                             className={clsx(
-                                "flex-shrink-0 flex-grow border-b border-t p-4 text-lg font-semibold transition-colors duration-150 hover:bg-gray-300 dark:hover:bg-gray-700",
+                                "flex flex-shrink-0 flex-grow items-center justify-center border-b border-t p-4 text-lg font-semibold transition-colors duration-150 hover:bg-gray-300 dark:hover:bg-gray-700",
                                 {
                                     "border-gray-400 dark:border-gray-700":
                                         ratingSet,
@@ -93,7 +94,7 @@ export function NewEntryForm({
                                 form.setValue("rating", index + 1);
                             }}
                         >
-                            {index + 1}
+                            <RatingEmoji rating={index + 1} />
                         </button>
                     ))}
                 </div>

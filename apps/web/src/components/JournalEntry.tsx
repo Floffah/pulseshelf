@@ -16,6 +16,7 @@ import { JournalFilter } from "@pulseshelf/lib";
 
 import { Icon } from "@/components/Icon";
 import { JournalEntryTagList } from "@/components/JournalEntryTagList";
+import { RatingEmoji } from "@/components/RatingEmoji";
 import { SongCard } from "@/components/SongCard";
 import { TagList } from "@/components/TagList";
 import { api } from "@/lib/api";
@@ -62,6 +63,7 @@ export function JournalEntry({ entry, songs, tags }: EntryProps) {
         <div className="flex flex-col gap-4 rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
             <div className="flex flex-col">
                 <div className="flex flex-wrap items-center gap-2 overflow-hidden">
+                    <RatingEmoji rating={entry.rating} />
                     <p className="flex-grow text-xl font-semibold">
                         {dateFormatter.format(entry.createdAt)}
                     </p>
@@ -124,10 +126,6 @@ export function JournalEntry({ entry, songs, tags }: EntryProps) {
                         />
                     </button>
                 </div>
-                <p className="flex items-center gap-0.5 text-yellow-500 dark:text-yellow-500">
-                    <Icon icon={StarIcon} label="rating" />
-                    {entry.rating}
-                </p>
             </div>
             <div className="flex flex-col gap-2 text-sm">
                 <div className="prose dark:prose-invert">
