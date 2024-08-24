@@ -8,6 +8,7 @@ import { z } from "zod";
 import { Form } from "@/components/Form";
 import { Loader } from "@/components/Loader";
 import { SongListInput } from "@/components/SongListInput";
+import { TagList } from "@/components/TagList";
 import { api } from "@/lib/api";
 import { useUser } from "@/state/user";
 
@@ -15,6 +16,7 @@ const formSchema = z.object({
     rating: z.number().int().min(1).max(5),
     content: z.string().min(1),
     songIds: z.array(z.string()),
+    tags: z.array(z.string()),
 });
 type FormValues = z.infer<typeof formSchema>;
 
@@ -131,6 +133,12 @@ export function NewEntryForm({
                             form.setValue("songIds", songIds)
                         }
                         maxSongs={3}
+                    />
+
+                    <TagList
+                        mutable
+                        tags={form.watch("tags")}
+                        onChange={(tags) => form.setValue("tags", tags)}
                     />
 
                     <Form.Button color="primary" size="md">

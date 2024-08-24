@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Form } from "@/components/Form";
+import { JournalEntryTagList } from "@/components/JournalEntryTagList";
 import { SongListInput } from "@/components/SongListInput";
 import { api } from "@/lib/api";
+import { useJournals } from "@/providers/journals";
 
 const formSchema = z.object({
     content: z.string().min(1),
@@ -20,6 +22,7 @@ type FormValues = z.infer<typeof formSchema>;
 export function EditJournal({ journalId }: { journalId: string }) {
     const trpcUtils = api.useUtils();
     const router = useRouter();
+    const journals = useJournals();
 
     const journal = api.journal.get.useQuery({
         journalId,
@@ -41,22 +44,9 @@ export function EditJournal({ journalId }: { journalId: string }) {
             ...data,
         });
 
-        // ts things
-        if (journal.data) {
-            trpcUtils.journal.get.setData(
-                {
-                    journalId,
-                },
-                {
-                    entry: {
-                        ...journal.data.entry,
-                        content: data.content,
-                    },
-                    songs: data.songIds,
-                    tags: journal.data.tags,
-                },
-            );
-        }
+        journals.updateEntry(journalId, {
+            entry: data,
+        });
 
         router.push(`/journal/${journalId}`);
     };
@@ -96,6 +86,15 @@ export function EditJournal({ journalId }: { journalId: string }) {
                 onChange={(songIds) => form.setValue("songIds", songIds)}
                 maxSongs={3}
             />
+
+            {journal.data && (
+                <JournalEntryTagList
+                    mutable
+                    entry={journal.data.entry}
+                    songs={journal.data.songs}
+                    tags={journal.data.tags}
+                />
+            )}
 
             <Form.Button color="primary" size="md">
                 Save

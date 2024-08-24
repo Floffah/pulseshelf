@@ -15,9 +15,12 @@ import type { JournalEntryAPIModel } from "@pulseshelf/api";
 import { JournalFilter } from "@pulseshelf/lib";
 
 import { Icon } from "@/components/Icon";
+import { JournalEntryTagList } from "@/components/JournalEntryTagList";
 import { SongCard } from "@/components/SongCard";
+import { TagList } from "@/components/TagList";
 import { api } from "@/lib/api";
 import { useDialogs } from "@/providers/DialogProvider";
+import { useJournals } from "@/providers/journals";
 
 export interface EntryProps {
     entry: JournalEntryAPIModel;
@@ -25,9 +28,10 @@ export interface EntryProps {
     tags: string[];
 }
 
-export function Entry({ entry, songs, tags }: EntryProps) {
+export function JournalEntry({ entry, songs, tags }: EntryProps) {
     const trpcUtils = api.useUtils();
     const dialogs = useDialogs();
+    const journals = useJournals();
 
     const setFavouriteMutation = api.journal.setFavourite.useMutation();
     const deleteEntryMutation = api.journal.deleteEntry.useMutation();
@@ -52,7 +56,7 @@ export function Entry({ entry, songs, tags }: EntryProps) {
                 tags,
             },
         );
-    }, []);
+    }, [entry, songs, tags]);
 
     return (
         <div className="flex flex-col gap-4 rounded-lg bg-gray-200 p-4 dark:bg-gray-800">
@@ -76,37 +80,11 @@ export function Entry({ entry, songs, tags }: EntryProps) {
                                 favourite: !entry.favourite,
                             });
 
-                            const existingList =
-                                trpcUtils.journal.list.getInfiniteData({
-                                    filter: JournalFilter.ALL,
-                                });
-
-                            let newList =
-                                existingList?.pages.map((page) => ({
-                                    ...page,
-                                    items: page.items.map((item) =>
-                                        item.entry.id === entry.id
-                                            ? {
-                                                  ...item,
-                                                  entry: {
-                                                      ...item.entry,
-                                                      favourite:
-                                                          !entry.favourite,
-                                                  },
-                                              }
-                                            : item,
-                                    ),
-                                })) ?? [];
-
-                            trpcUtils.journal.list.setInfiniteData(
-                                {
-                                    filter: JournalFilter.ALL,
+                            journals.updateEntry(entry.id, {
+                                entry: {
+                                    favourite: !entry.favourite,
                                 },
-                                {
-                                    ...existingList,
-                                    pages: newList,
-                                } as typeof existingList,
-                            );
+                            });
                         }}
                     >
                         <Icon
@@ -135,29 +113,7 @@ export function Entry({ entry, songs, tags }: EntryProps) {
                                     journalId: entry.id,
                                 });
 
-                                const existingList =
-                                    trpcUtils.journal.list.getInfiniteData({
-                                        filter: JournalFilter.ALL,
-                                    });
-
-                                let newList =
-                                    existingList?.pages.map((page) => ({
-                                        ...page,
-                                        items: page.items.filter(
-                                            (item) =>
-                                                item.entry.id !== entry.id,
-                                        ),
-                                    })) ?? [];
-
-                                trpcUtils.journal.list.setInfiniteData(
-                                    {
-                                        filter: JournalFilter.ALL,
-                                    },
-                                    {
-                                        ...existingList,
-                                        pages: newList,
-                                    } as typeof existingList,
-                                );
+                                journals.deleteEntry(entry.id);
                             }
                         }}
                     >
@@ -177,6 +133,8 @@ export function Entry({ entry, songs, tags }: EntryProps) {
                 <div className="prose dark:prose-invert">
                     <Remark>{entry.content}</Remark>
                 </div>
+
+                <JournalEntryTagList entry={entry} songs={songs} tags={tags} />
 
                 {songs.map((songId) => (
                     <SongCard key={songId} songId={songId} />

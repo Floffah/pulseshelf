@@ -1,6 +1,5 @@
 "use client";
 
-import * as Popover from "@radix-ui/react-popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import clsx from "clsx";
 import Image from "next/image";
@@ -12,6 +11,7 @@ import PlusIcon from "~icons/mdi/plus";
 
 import { Form } from "@/components/Form";
 import { Icon } from "@/components/Icon";
+import { Popover } from "@/components/Popover";
 import { api } from "@/lib/api";
 
 const formSchema = z.object({
@@ -39,14 +39,12 @@ export function SongPickerButton({ onPick }: SongPickerButtonProps) {
     };
 
     return (
-        <Popover.Root open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen}>
             <Popover.Trigger className="flex items-center rounded-lg border border-gray-400 px-4 py-2 text-gray-400 transition-colors duration-150 hover:bg-gray-300 dark:border-gray-700 dark:hover:bg-gray-700">
                 <Icon icon={PlusIcon} className="h-6 w-6" />
                 Add Song
             </Popover.Trigger>
-            <Popover.Content className="w-full max-w-md rounded-lg border border-gray-200 bg-gray-100 p-2 shadow-xl dark:border-white/10 dark:bg-gray-800">
-                <Popover.Arrow className="fill-gray-100 dark:fill-gray-700" />
-
+            <Popover.Content className="w-full max-w-md">
                 <Form
                     form={form}
                     submitHandler={onSubmit}
@@ -116,6 +114,6 @@ export function SongPickerButton({ onPick }: SongPickerButtonProps) {
                     ))}
                 </div>
             </Popover.Content>
-        </Popover.Root>
+        </Popover>
     );
 }

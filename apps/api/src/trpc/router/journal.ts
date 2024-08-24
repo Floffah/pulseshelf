@@ -166,6 +166,7 @@ export const journalRouter = router({
                 content: z.string().max(65536).optional(),
                 rating: z.number().min(1).max(5).optional(),
                 songIds: z.array(z.string().max(64)).optional(),
+                tags: z.array(z.string().max(65536)).optional(),
             }),
         )
         .mutation(async ({ ctx, input }) => {
@@ -240,6 +241,39 @@ export const journalRouter = router({
                         journalId: journalEntry.id,
                         source: "SPOTIFY",
                         songId,
+                    });
+                }
+            }
+
+            if (input.tags && Array.isArray(input.tags)) {
+                const existingTags = await db.query.journalTags.findMany({
+                    where: (journalTags) =>
+                        eq(journalTags.journalId, journalEntry.id),
+                });
+                const existingTagNames = existingTags.map((tag) => tag.tag);
+
+                const toRemove = existingTagNames.filter(
+                    (tag) => !input.tags!.includes(tag),
+                );
+                const toAdd = input.tags.filter(
+                    (tag) => !existingTagNames.includes(tag),
+                );
+
+                for (const tag of toRemove) {
+                    await db
+                        .delete(journalTags)
+                        .where(
+                            and(
+                                eq(journalTags.journalId, journalEntry.id),
+                                eq(journalTags.tag, tag),
+                            ),
+                        );
+                }
+
+                for (const tag of toAdd) {
+                    await db.insert(journalTags).values({
+                        journalId: journalEntry.id,
+                        tag,
                     });
                 }
             }

@@ -1,8 +1,25 @@
 import { TRPCError } from "@trpc/server";
+import { unstable_cache } from "next/cache";
 import { z } from "zod";
 
 import { spotifyClient } from "@/lib/spotify";
 import { authedProcedure, router } from "@/trpc/trpc";
+
+const searchTrack = unstable_cache(
+    (query: string) => spotifyClient.search(query, ["track"], undefined, 10),
+    ["spotify-search-track"],
+    {
+        revalidate: 60 * 60 * 24 * 7,
+    },
+);
+
+const getTrack = unstable_cache(
+    (id: string) => spotifyClient.tracks.get(id),
+    ["spotify-get-track"],
+    {
+        revalidate: 60 * 60 * 24 * 7,
+    },
+);
 
 export const musicRouter = router({
     searchTrack: authedProcedure
@@ -12,12 +29,7 @@ export const musicRouter = router({
             }),
         )
         .mutation(async ({ input }) => {
-            const result = await spotifyClient.search(
-                input.query,
-                ["track"],
-                undefined,
-                10,
-            );
+            const result = await searchTrack(input.query);
 
             return result.tracks.items.map((track) => ({
                 id: track.id,
@@ -38,7 +50,7 @@ export const musicRouter = router({
             }),
         )
         .query(async ({ input }) => {
-            const track = await spotifyClient.tracks.get(input.id);
+            const track = await getTrack(input.id);
 
             if (!track) {
                 throw new TRPCError({

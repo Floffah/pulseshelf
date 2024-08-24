@@ -4,7 +4,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 
 import { JournalFilter } from "@pulseshelf/lib";
 
-import { Entry } from "@/app/journal/Entry";
+import { JournalEntry } from "@/components/JournalEntry";
 import { Loader } from "@/components/Loader";
 import { api } from "@/lib/api";
 import { useUser } from "@/state/user";
@@ -56,7 +56,7 @@ export const EntryList = forwardRef<EntryListRef>((_props, ref) => {
 
                 {journalEntries.data?.pages.map((page, i) =>
                     page.items.map(({ entry, songs, tags }, j) => (
-                        <Entry
+                        <JournalEntry
                             key={`${i}-${j}`}
                             entry={entry}
                             songs={songs}

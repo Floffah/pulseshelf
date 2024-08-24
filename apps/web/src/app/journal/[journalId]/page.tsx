@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import { Entry } from "@/app/journal/Entry";
+import { JournalEntry } from "@/components/JournalEntry";
 import { Loader } from "@/components/Loader";
 import { api } from "@/lib/api";
 
@@ -28,7 +28,9 @@ export default function JournalEntryPage({ params: { journalId } }) {
                 </div>
             )}
 
-            {journal.data && !journal.isError && <Entry {...journal.data} />}
+            {journal.data && !journal.isError && (
+                <JournalEntry {...journal.data} />
+            )}
         </>
     );
 }

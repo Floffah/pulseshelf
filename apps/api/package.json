@@ -34,10 +34,14 @@
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
-    "bun-types": "^1.1.25",
+    "bun-types": "^1.1.26",
     "concurrently": "^8.2.2",
+    "next": "^14.2.6",
     "tsc-alias": "^1.8.10",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4"
+  },
+  "peerDependencies": {
+    "next": "^14.2.6"
   }
 }
