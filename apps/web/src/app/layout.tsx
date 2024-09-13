@@ -1,6 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Nunito } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import "@/app/globals.css";
 import { populateMetadata } from "@/lib/populateMetadata";
@@ -12,12 +12,12 @@ export const metadata = populateMetadata({
     description: "Document your life through music",
 });
 
-const nunito = Nunito({ subsets: ["latin"], variable: "--font-sans" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en" className={nunito.variable}>
-            <body className={nunito.className}>
+        <html lang="en" className={inter.variable}>
+            <body className={inter.className}>
                 <APIProvider>
                     <DialogProvider>{children}</DialogProvider>
                 </APIProvider>
