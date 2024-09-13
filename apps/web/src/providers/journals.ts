@@ -1,7 +1,6 @@
-import type { JournalEntryAPIModel } from "@pulseshelf/api";
 import { JournalFilter } from "@pulseshelf/lib";
 
-import { TRPCInputTypes, TRPCOutputTypes, api } from "@/lib/api";
+import { TRPCOutputTypes, api } from "@/lib/api";
 
 export function useJournals() {
     const trpcUtils = api.useUtils();

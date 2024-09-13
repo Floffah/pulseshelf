@@ -9,16 +9,13 @@ import BinOutlineIcon from "~icons/mdi/bin-outline";
 import HeartIcon from "~icons/mdi/heart";
 import HeartOutlineIcon from "~icons/mdi/heart-outline";
 import PencilOutlineIcon from "~icons/mdi/pencil-outline";
-import StarIcon from "~icons/mdi/star";
 
 import type { JournalEntryAPIModel } from "@pulseshelf/api";
-import { JournalFilter } from "@pulseshelf/lib";
 
 import { Icon } from "@/components/Icon";
 import { JournalEntryTagList } from "@/components/JournalEntryTagList";
 import { RatingEmoji } from "@/components/RatingEmoji";
 import { SongCard } from "@/components/SongCard";
-import { TagList } from "@/components/TagList";
 import { api } from "@/lib/api";
 import { useDialogs } from "@/providers/DialogProvider";
 import { useJournals } from "@/providers/journals";

@@ -1,5 +1,4 @@
 import BinOutlineIcon from "~icons/mdi/bin-outline";
-import PlusIcon from "~icons/mdi/plus";
 
 import { Icon } from "@/components/Icon";
 import { AddTagButton } from "@/components/TagList/AddTagButton";

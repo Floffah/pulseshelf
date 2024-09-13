@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ComponentProps, ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef } from "react";
 
 import EmoticonDeadEmoji from "~icons/mdi/emoticon-dead";
 import EmoticonExcitedEmoji from "~icons/mdi/emoticon-excited";

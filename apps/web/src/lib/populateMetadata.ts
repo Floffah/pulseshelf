@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import type { Icon } from "next/dist/lib/metadata/types/metadata-types";
 
 interface PopulateMetadataOptions {
     title?: string;
