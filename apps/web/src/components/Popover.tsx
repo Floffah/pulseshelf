@@ -53,8 +53,13 @@ export const PopoverContent = forwardRef<
 
     let children: ReactNode = "invalid children";
 
-    if (isValidElement(children)) {
+    if (isValidElement(propsChildren)) {
         children = propsChildren as ReactNode;
+    } else if (
+        Array.isArray(propsChildren) &&
+        !propsChildren.some((el) => !isValidElement(el))
+    ) {
+        children = propsChildren;
     } else if (typeof propsChildren === "function") {
         children = propsChildren(ctx);
     }
