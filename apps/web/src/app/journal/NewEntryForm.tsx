@@ -35,6 +35,7 @@ export function NewEntryForm({
         defaultValues: {
             content: "Today I felt...",
             songIds: [],
+            tags: [],
         },
     });
 
