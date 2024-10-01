@@ -114,11 +114,11 @@ export const authenticationRouter = router({
                 });
             }
 
-            const nameExists = await db.query.users.findFirst({
+            const existingWithName = await db.query.users.findFirst({
                 where: (user) => eq(user.name, input.name),
             });
 
-            if (nameExists) {
+            if (existingWithName) {
                 throw new TRPCError({
                     code: "BAD_REQUEST",
                     message: AuthError.NAME_TAKEN,
@@ -127,13 +127,16 @@ export const authenticationRouter = router({
 
             const passwordHash = await hash(input.password, 10);
 
-            const insertedUser = await db.insert(users).values({
-                name: input.name,
-                email: input.email,
-                passwordHash,
-            });
+            const insertedIds = await db
+                .insert(users)
+                .values({
+                    name: input.name,
+                    email: input.email,
+                    passwordHash,
+                })
+                .$returningId();
             const user = await db.query.users.findFirst({
-                where: (users) => eq(users.id, parseInt(insertedUser.insertId)),
+                where: (users) => eq(users.id, insertedIds[0].id),
             });
 
             await db

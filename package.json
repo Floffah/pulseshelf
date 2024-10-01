@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "deps": "ncu -ws --root -x eslint",
+    "deps": "ncu -ws --root -x eslint -x react-hook-form",
     "build": "turbo run build",
     "start": "turbo run start",
     "dev": "turbo run dev",

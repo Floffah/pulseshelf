@@ -121,12 +121,15 @@ export const journalRouter = router({
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            const insertResult = await db.insert(journalEntries).values({
-                content: input.content,
-                rating: input.rating,
-                createdBy: ctx.session.userId,
-            });
-            const journalEntryID = parseInt(insertResult.insertId);
+            const insertedIds = await db
+                .insert(journalEntries)
+                .values({
+                    content: input.content,
+                    rating: input.rating,
+                    createdBy: ctx.session.userId,
+                })
+                .$returningId();
+            const journalEntryID = insertedIds[0].id;
 
             const journalEntry = await db.query.journalEntries.findFirst({
                 where: (journalEntries) =>
