@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { animated, useSpring } from "@react-spring/web";
 import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -39,8 +41,27 @@ export function NewEntryForm({
         },
     });
 
+    const expandedFormFieldsRef = useRef<HTMLDivElement | null>(null);
+
+    const [contentHeight, setContentHeight] = useState<number | null>(null);
+
     const currentRating = form.watch("rating");
     const ratingSet = typeof currentRating === "number";
+
+    const transitionStyles = useSpring({
+        height: ratingSet ? contentHeight! : 0,
+
+        config: {
+            tension: 350,
+            friction: 30,
+        },
+    });
+
+    useEffect(() => {
+        if (expandedFormFieldsRef.current) {
+            setContentHeight(expandedFormFieldsRef.current.scrollHeight);
+        }
+    }, [ratingSet, expandedFormFieldsRef]);
 
     const onSubmit = async (data: FormValues) => {
         await createEntryMutation.mutateAsync(data);
@@ -107,47 +128,53 @@ export function NewEntryForm({
                 </p>
             )}
 
-            {ratingSet && (
-                <>
-                    <Form.TextArea
-                        label="Entry"
-                        description={
-                            <>
-                                Write as much as you want! Uses{" "}
-                                <a
-                                    href="https://www.markdownguide.org/cheat-sheet/"
-                                    className="text-blue-600/60 underline dark:text-blue-400"
-                                >
-                                    Markdown
-                                </a>
-                                .
-                            </>
-                        }
-                        name="content"
-                        placeholder="How are you feeling?"
-                        minRows={3}
-                        maxRows={10}
-                    />
+            <animated.div
+                style={transitionStyles}
+                ref={expandedFormFieldsRef}
+                className="flex flex-col gap-2 overflow-hidden"
+            >
+                {ratingSet && (
+                    <>
+                        <Form.TextArea
+                            label="Entry"
+                            description={
+                                <>
+                                    Write as much as you want! Uses{" "}
+                                    <a
+                                        href="https://www.markdownguide.org/cheat-sheet/"
+                                        className="text-blue-600/60 underline dark:text-blue-400"
+                                    >
+                                        Markdown
+                                    </a>
+                                    .
+                                </>
+                            }
+                            name="content"
+                            placeholder="How are you feeling?"
+                            minRows={3}
+                            maxRows={10}
+                        />
 
-                    <SongListInput
-                        songIds={form.watch("songIds")}
-                        onChange={(songIds) =>
-                            form.setValue("songIds", songIds)
-                        }
-                        maxSongs={3}
-                    />
+                        <SongListInput
+                            songIds={form.watch("songIds")}
+                            onChange={(songIds) =>
+                                form.setValue("songIds", songIds)
+                            }
+                            maxSongs={3}
+                        />
 
-                    <TagList
-                        mutable
-                        tags={form.watch("tags")}
-                        onChange={(tags) => form.setValue("tags", tags)}
-                    />
+                        <TagList
+                            mutable
+                            tags={form.watch("tags")}
+                            onChange={(tags) => form.setValue("tags", tags)}
+                        />
 
-                    <Form.Button color="primary" size="md">
-                        Save
-                    </Form.Button>
-                </>
-            )}
+                        <Form.Button color="primary" size="md">
+                            Save
+                        </Form.Button>
+                    </>
+                )}
+            </animated.div>
         </Form>
     );
 }
