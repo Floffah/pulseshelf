@@ -19,7 +19,7 @@ export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
         };
     }
 
-    let token = "";
+    let token: string | undefined;
 
     if (opts.req.headers.has("x-session-token")) {
         token = opts.req.headers.get("x-session-token") as string;
