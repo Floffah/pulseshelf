@@ -28,7 +28,6 @@ export default function LoginForm() {
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
-        disabled: currentUser.isLoading,
     });
 
     useEffect(() => {
@@ -60,6 +59,7 @@ export default function LoginForm() {
             form={form}
             submitHandler={onSubmit}
             className="flex flex-col gap-2"
+            disabled={currentUser.isLoading}
         >
             <Form.Input name="email" label="Email" />
             <Form.Input name="password" label="Password" type="password" />

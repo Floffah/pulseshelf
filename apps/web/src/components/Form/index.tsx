@@ -22,6 +22,7 @@ import { FormTextArea } from "@/components/Form/FormTextArea";
 
 export interface FormProps {
     form: UseFormReturn<any, any, any>;
+    disabled?: boolean;
     submitHandler: SubmitHandler<any>;
     submitErrorHandler?: SubmitErrorHandler<any>;
 }
@@ -87,6 +88,7 @@ export const Form = Object.assign(
             return (
                 <FormProvider
                     form={form}
+                    disabled={props.disabled}
                     submitHandler={submitHandler}
                     submitErrorHandler={submitErrorHandler}
                 >

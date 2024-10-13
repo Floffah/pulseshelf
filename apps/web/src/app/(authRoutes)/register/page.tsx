@@ -30,7 +30,6 @@ export default function RegisterForm() {
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
-        disabled: currentUser.isLoading,
     });
 
     useEffect(() => {
@@ -85,6 +84,7 @@ export default function RegisterForm() {
             form={form}
             submitHandler={onSubmit}
             className="flex flex-col gap-2"
+            disabled={currentUser.isLoading}
         >
             <Form.Input name="name" label="Name" />
             <Form.Input name="email" label="Email" />

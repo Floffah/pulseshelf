@@ -31,7 +31,7 @@ export const useFormField = <Props extends FormFieldBaseProps>(
 ) => {
     "use client";
 
-    const { form } = useContext(FormContext);
+    const { form, disabled: formDisabled } = useContext(FormContext);
 
     const {
         name,
@@ -45,7 +45,8 @@ export const useFormField = <Props extends FormFieldBaseProps>(
         ...rest
     } = props;
 
-    const disabled = form?.formState?.isSubmitting || propsDisabled;
+    const disabled =
+        formDisabled || form?.formState?.isSubmitting || propsDisabled;
 
     const error = form.formState.errors[name];
 

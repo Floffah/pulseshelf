@@ -19,7 +19,7 @@ export const FormButton = forwardRef<
 >(({ onClick, ...props }, externalRef) => {
     "use client";
 
-    const { form, submit } = useContext(FormContext);
+    const { form, disabled: formDisabled, submit } = useContext(FormContext);
 
     const buttonRef = useRef<ComponentRef<typeof Button>>(null);
 
@@ -34,6 +34,7 @@ export const FormButton = forwardRef<
             {...props}
             type="submit"
             loading={form.formState.isSubmitting || props.loading}
+            disabled={formDisabled || props.disabled}
             ref={composeRefs(externalRef, buttonRef)}
             onClick={
                 onClick ??
