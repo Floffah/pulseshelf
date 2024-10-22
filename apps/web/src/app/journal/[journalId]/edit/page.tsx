@@ -1,13 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 
 import { EditJournal } from "@/app/journal/[journalId]/edit/EditJournal";
 import { Loader } from "@/components/Loader";
 import { api } from "@/lib/api";
 
-export default function EditJournalEntryPage({ params: { journalId } }) {
+export default function EditJournalEntryPage(props) {
+    const params = use<any>(props.params);
+
+    const { journalId } = params;
+
     const router = useRouter();
 
     const journal = api.journal.get.useQuery({
