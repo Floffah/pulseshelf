@@ -11,10 +11,8 @@ const withMDX = createMDX({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-    experimental: {
-        esmExternals: "loose",
-        serverComponentsExternalPackages: ["@node-rs/bcrypt"],
-    },
+    serverExternalPackages: ["@node-rs/bcrypt"],
+    experimental: {},
     typescript: {
         // part of lint step, next ignores tsconfig references and breaks trpc
         ignoreBuildErrors: true,

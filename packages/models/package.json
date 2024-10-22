@@ -17,12 +17,12 @@
   },
   "dependencies": {
     "@planetscale/database": "^1.19.0",
-    "drizzle-orm": "^0.34.1",
+    "drizzle-orm": "^0.35.3",
     "nanoid": "^5.0.7"
   },
   "devDependencies": {
-    "bun-types": "^1.1.30",
-    "drizzle-kit": "^0.25.0",
+    "bun-types": "^1.1.32",
+    "drizzle-kit": "^0.26.2",
     "tsup": "^8.3.0",
     "typescript": "^5.6.3"
   }

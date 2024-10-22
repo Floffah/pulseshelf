@@ -10,7 +10,7 @@ import { queryClientConfig } from "@/lib/api/reactQuery";
 export const getTRPCServerHelpers = cache(async () => {
     const ctx = await createTRPCContext({
         req: {
-            headers: headers(),
+            headers: await headers(),
         } as Request,
         resHeaders: new Headers(),
         info: null!,
