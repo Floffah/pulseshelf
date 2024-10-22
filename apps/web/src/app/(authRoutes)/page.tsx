@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import CheckIcon from "~icons/mdi/check";
+
 import { Button } from "@/components/Button";
 import { Form } from "@/components/Form";
 import { api } from "@/lib/api";
@@ -75,11 +77,13 @@ export default function LoginForm() {
                     Register
                 </Button>
                 <Form.Button
-                    size="md"
-                    color="primary"
                     type="submit"
+                    size="md"
+                    color={loginWithPassword.isSuccess ? "success" : "primary"}
+                    icon={loginWithPassword.isSuccess ? CheckIcon : undefined}
                     className="flex-shrink-0 flex-grow"
                     loading={currentUser.isLoading}
+                    disabled={loginWithPassword.isSuccess}
                 >
                     Login
                 </Form.Button>

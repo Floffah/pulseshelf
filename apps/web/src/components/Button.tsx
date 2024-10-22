@@ -1,10 +1,12 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
+import { ReactNodeView } from "@tiptap/react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import {
     ComponentProps,
+    ReactNode,
     cloneElement,
     createContext,
     forwardRef,
@@ -18,7 +20,7 @@ import { Loader } from "@/components/Loader";
 export interface ButtonProps extends ComponentProps<"button"> {
     asChild?: boolean;
     size: "sm" | "md";
-    color: "primary" | "secondary" | "danger";
+    color: "primary" | "secondary" | "success" | "danger";
     loading?: boolean;
     icon?: IconProps["icon"];
     iconLabel?: string;
@@ -110,7 +112,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
                     ref={ref as any}
                     className={clsx(
                         className,
-                        "transition-opacity duration-150",
+                        "transition-[opacity,color,background-color] duration-150",
                         {
                             "flex h-fit items-center justify-center space-x-1":
                                 !asChild,
@@ -123,6 +125,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
                             "bg-blue-500 text-white dark:bg-blue-700":
                                 color === "primary",
+                            "bg-green-500 text-white dark:bg-green-700":
+                                color === "success",
                             "border border-black/10 bg-black/5 text-black dark:border-white/10 dark:bg-white/5 dark:text-white":
                                 color === "secondary",
                             "bg-red-500 text-white dark:bg-red-800":
