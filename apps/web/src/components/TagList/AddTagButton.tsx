@@ -25,7 +25,7 @@ export function AddTagButton({ tags, onSubmit }: AddTagButtonProps) {
 
     return (
         <Popover>
-            <Popover.Trigger>
+            <Popover.Trigger asChild>
                 <button className="flex items-center gap-1 rounded-full bg-gray-300 px-2 py-0.5 text-sm text-gray-800 dark:bg-gray-700 dark:text-gray-200">
                     <Icon icon={PlusIcon} label="add tag" className="h-4 w-4" />
                     {tags.length === 0 && <span>Add tag</span>}
