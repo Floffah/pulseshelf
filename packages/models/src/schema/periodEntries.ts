@@ -1,5 +1,4 @@
-import { date, mysqlTable } from "drizzle-orm/mysql-core";
-import { int, serial, text } from "drizzle-orm/mysql-core";
+import { date, int, mysqlTable, serial, text } from "drizzle-orm/mysql-core";
 
 import { createdAt, publicId } from "@/schema/fields";
 

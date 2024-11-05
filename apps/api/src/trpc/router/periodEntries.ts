@@ -2,12 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-import {
-    db,
-    journalEntries,
-    periodEntries,
-    periodEntrySongs,
-} from "@pulseshelf/models";
+import { db, periodEntries, periodEntrySongs } from "@pulseshelf/models";
 
 import { PeriodEntryAPIModel } from "@/lib";
 import { authedProcedure, router } from "@/trpc/trpc";

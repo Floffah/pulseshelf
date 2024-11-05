@@ -1,6 +1,5 @@
 import type { User, UserSession } from "@pulseshelf/models";
-import { JournalEntry } from "@pulseshelf/models";
-import { PeriodEntry } from "@pulseshelf/models/src";
+import { JournalEntry, PeriodEntry } from "@pulseshelf/models";
 
 export async function createTransformer(
     ctx: {
