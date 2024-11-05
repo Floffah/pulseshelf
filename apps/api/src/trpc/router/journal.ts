@@ -14,6 +14,8 @@ import {
 import { JournalEntryAPIModel } from "@/lib";
 import { authedProcedure, router } from "@/trpc/trpc";
 
+// TODO: refactor to follow the format of periodEntries.ts
+
 export const journalRouter = router({
     get: authedProcedure
         .input(z.object({ journalId: z.string() }))

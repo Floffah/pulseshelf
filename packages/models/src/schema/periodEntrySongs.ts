@@ -22,3 +22,5 @@ export const periodEntrySongs = mysqlTable(
         };
     },
 );
+
+export type PeriodEntrySong = typeof periodEntrySongs.$inferSelect;
