@@ -1,5 +1,5 @@
 import type { User, UserSession } from "@pulseshelf/models";
-import { JournalEntry } from "@pulseshelf/models";
+import { JournalEntry, PeriodEntry } from "@pulseshelf/models";
 
 export async function createTransformer(
     ctx: {
@@ -16,6 +16,10 @@ export async function createTransformer(
             ...journalEntry,
             id: publicId,
         }),
+        periodEntry: ({ publicId, ...periodEntry }: PeriodEntry) => ({
+            ...periodEntry,
+            id: publicId,
+        }),
     };
 }
 
@@ -23,3 +27,4 @@ export type Transformer = Awaited<ReturnType<typeof createTransformer>>;
 
 export type UserAPIModel = ReturnType<Transformer["user"]>;
 export type JournalEntryAPIModel = ReturnType<Transformer["journalEntry"]>;
+export type PeriodEntryAPIModel = ReturnType<Transformer["periodEntry"]>;
