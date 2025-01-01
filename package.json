@@ -13,7 +13,8 @@
     "setup": "turbo run setup",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "format": "turbo run format"
+    "format": "turbo run format",
+    "postinstall": "bun run scripts/easBuild.ts"
   },
   "devDependencies": {
     "npm-check-updates": "^17.1.13",
