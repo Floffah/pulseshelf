@@ -22,6 +22,9 @@
         "^build"
       ]
     },
+    "format": {
+      "cache": false
+    },
     "test": {
       "dependsOn": [
         "lint",

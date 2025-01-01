@@ -12,7 +12,7 @@ export const createTRPCContext = async (opts: FetchCreateContextFnOptions) => {
     opts.resHeaders.set("Access-Control-Allow-Origin", "*");
     opts.resHeaders.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     opts.resHeaders.set("Access-Control-Allow-Headers", "*");
-    
+
     if (
         !opts.req.headers.has("cookie") &&
         !opts.req.headers.has("x-session-token")

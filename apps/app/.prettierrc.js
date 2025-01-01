@@ -1,3 +1,3 @@
-import { withBase } from "@pulseshelf/prettier-config";
+const { withBase } = require("@pulseshelf/prettier-config");
 
-export default withBase({});
+module.exports = withBase({});

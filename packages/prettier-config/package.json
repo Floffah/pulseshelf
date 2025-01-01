@@ -6,7 +6,8 @@
   "types": "prettier.config.ts",
   "scripts": {
     "build": "bun build ./prettier.config.ts --minify --target=node --outfile=dist/index.js",
-    "dev": "bun run build --watch"
+    "dev": "bun run build --watch",
+    "format": "prettier --write **/*.{ts,js}"
   },
   "dependencies": {
     "@trivago/prettier-plugin-sort-imports": "^5.2.0",

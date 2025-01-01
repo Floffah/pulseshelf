@@ -1,6 +1,5 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { StrictMode } from "react";
 import { useColorScheme } from "react-native";
 
 import { TRPCProvider } from "@/providers/TRPCProvider";

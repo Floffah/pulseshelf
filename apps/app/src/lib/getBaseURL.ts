@@ -7,4 +7,4 @@ export function getBaseURL() {
         return `http://${experienceUrl.hostname}:3000`;
     }
     return "https://pulseshelf.com";
-};
+}

@@ -12,7 +12,9 @@
   "scripts": {
     "dev": "concurrently \"tsup --watch\" \"tsc -w --pretty --preserveWatchOutput --emitDeclarationOnly\" \"tsc-alias -w\"",
     "build": "tsup && tsc -b --emitDeclarationOnly && tsc-alias",
-    "test": "bun test"
+    "test": "bun test",
+    "format": "prettier --write **/*.{ts,js} src",
+    "lint": "tsc --noEmit && eslint --ext .ts,.tsx,.js src"
   },
   "dependencies": {
     "@discordjs/rest": "^2.4.0",

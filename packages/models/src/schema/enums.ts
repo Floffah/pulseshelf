@@ -1,5 +1,3 @@
-import { mysqlEnum } from "drizzle-orm/mysql-core";
+import { pgEnum } from "drizzle-orm/pg-core";
 
-export const oAuthProviderEnum = mysqlEnum("oauth_provider", ["DISCORD"]);
-
-export const songSource = mysqlEnum("song_source", ["SPOTIFY"]);
+export const songSource = pgEnum("song_source", ["SPOTIFY"]);

@@ -1,4 +1,3 @@
-import { procedure, router } from "@/trpc/trpc";
+import { router } from "@/trpc/trpc";
 
-export const journalRouter = router({
-});
+export const journalRouter = router({});

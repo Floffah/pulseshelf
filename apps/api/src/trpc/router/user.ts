@@ -14,6 +14,6 @@ export const userRouter = router({
             where: (users) => eq(users.id, ctx.session!.userId),
         });
 
-        return !!user ? ctx.transform.user(user) : null;
+        return user ? ctx.transform.user(user) : null;
     }),
 });

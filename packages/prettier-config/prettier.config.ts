@@ -12,12 +12,13 @@ export const withBase = (config: Config) => ({
     endOfLine: "lf",
     embeddedLanguageFormatting: "auto",
 
-    importOrder: ["<THIRD_PARTY_MODULES>", "^@keystone/(.*)$", "^@/(.*)$"],
+    importOrder: ["<THIRD_PARTY_MODULES>", "^@pulseshelf/(.*)$", "^@/(.*)$"],
     importOrderSeparation: true,
     importOrderSortSpecifiers: true,
     importOrderGroupNamespaceSpecifiers: true,
 
     plugins: [
+        "prettier-plugin-organize-imports",
         "@trivago/prettier-plugin-sort-imports",
         ...(config.plugins ?? []),
     ],

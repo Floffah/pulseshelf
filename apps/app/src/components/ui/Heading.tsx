@@ -1,7 +1,6 @@
+import { fontSizes, lineHeights } from "../../styles/tokens.stylex";
 import { PropsWithChildren } from "react";
 import { css, html } from "react-strict-dom";
-
-import { fontSizes, lineHeights } from "../../styles/tokens.stylex";
 
 export function Heading({
     level,

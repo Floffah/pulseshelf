@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "main": "./eslint.config.js",
+  "scripts": {
+    "format": "prettier --write **/*.js"
+  },
   "dependencies": {
     "@pulseshelf/prettier-config": "workspace:*",
     "@types/bun": "^1.1.14",

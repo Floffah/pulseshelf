@@ -1,20 +1,20 @@
 import {
-    datetime,
     index,
-    int,
-    mysqlTable,
+    integer,
+    pgTable,
     serial,
+    timestamp,
     varchar,
-} from "drizzle-orm/mysql-core";
+} from "drizzle-orm/pg-core";
 
-export const userSessions = mysqlTable(
+export const userSessions = pgTable(
     "user_sessions",
     {
         id: serial("id").primaryKey(),
-        userId: int("user_id").notNull(),
+        userId: integer("user_id").notNull(),
         token: varchar("token", { length: 256 }).notNull().unique(),
-        expiresAt: datetime("expires_at").notNull(),
-        lastUsedAt: datetime("last_used_at"),
+        expiresAt: timestamp("expires_at").notNull(),
+        lastUsedAt: timestamp("last_used_at"),
     },
     (userSessions) => {
         return {

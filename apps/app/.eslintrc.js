@@ -1,3 +1,3 @@
 module.exports = {
-    "extends": "@pulseshelf/eslint-config",
-}
+    extends: "@pulseshelf/eslint-config",
+};

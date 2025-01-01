@@ -7,11 +7,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { AuthError, SESSION_TOKEN } from "@pulseshelf/lib";
-import {
-    db,
-    userSessions,
-    users,
-} from "@pulseshelf/models";
+import { db, userSessions, users } from "@pulseshelf/models";
 
 import { procedure, router } from "@/trpc/trpc";
 
@@ -115,17 +111,16 @@ export const authenticationRouter = router({
 
             const passwordHash = await hash(input.password, 10);
 
-            const insertedIds = await db
+            const userInsertions = await db
                 .insert(users)
                 .values({
                     name: input.name,
                     email: input.email,
                     passwordHash,
                 })
-                .$returningId();
-            const user = await db.query.users.findFirst({
-                where: (users) => eq(users.id, insertedIds[0].id),
-            });
+                .returning();
+
+            const user = userInsertions[0];
 
             return ctx.transform.user(user!);
         }),

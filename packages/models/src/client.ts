@@ -1,14 +1,16 @@
 import * as schema from "./schema";
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { type NeonQueryFunction, neon } from "@neondatabase/serverless";
+import { type NeonHttpDatabase, drizzle } from "drizzle-orm/neon-http";
 
-export const PlanetScaleClient = new Client({
-    host: process.env.PLANETSCALE_DB_HOST,
-    username: process.env.PLANETSCALE_DB_USERNAME,
-    password: process.env.PLANETSCALE_DB_PASSWORD,
-});
+let sql: NeonQueryFunction<false, false>, db: NeonHttpDatabase<typeof schema>;
 
-export const db = drizzle(PlanetScaleClient, {
-    logger: process.env.NODE_ENV !== "production",
-    schema,
-});
+if (typeof process.env.DATABASE_URL === "string") {
+    sql = neon(process.env.DATABASE_URL);
+
+    db = drizzle(sql, {
+        // logger: process.env.NODE_ENV !== "production",
+        schema,
+    });
+}
+
+export { sql, db };

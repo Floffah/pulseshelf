@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { datetime, varchar } from "drizzle-orm/mysql-core";
+import { timestamp, varchar } from "drizzle-orm/pg-core";
 
 import { generatePublicId } from "@/lib";
 
@@ -10,6 +10,6 @@ export const publicId = () =>
         .$defaultFn(() => generatePublicId());
 
 export const createdAt = () =>
-    datetime("created_at")
+    timestamp("created_at")
         .notNull()
         .default(sql`now()`);

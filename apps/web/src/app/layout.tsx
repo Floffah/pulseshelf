@@ -1,7 +1,8 @@
 import stylex, { StyleXStyles } from "@stylexjs/stylex";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
+import { PropsWithChildren } from "react";
 
 import "@/app/globals.css";
 import { populateMetadata } from "@/lib/populateMetadata";
@@ -21,7 +22,7 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: PropsWithChildren) {
     return (
         <html
             lang="en"

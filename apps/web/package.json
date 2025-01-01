@@ -4,7 +4,8 @@
         "dev": "next dev",
         "dev:env": "vercel env pull .env",
         "build": "next build",
-        "lint": "tsc --noEmit && next lint"
+        "lint": "tsc --noEmit && next lint",
+        "format": "prettier --write **/*.{ts,js,tsx} src"
     },
     "dependencies": {
         "@hookform/resolvers": "^3.9.1",
