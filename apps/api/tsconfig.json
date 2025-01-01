@@ -27,5 +27,5 @@
     "composite": true
   },
   "include": ["src"],
-  "exclude": ["src/tests", "**/*.test.ts"]
+  "exclude": ["src/tests", "**/*.test.ts", "node_modules"]
 }

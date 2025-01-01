@@ -16,6 +16,6 @@
             "path": "../../apps/api/tsconfig.json"
         }
     ],
-    "include": ["src", "*.ts", "*.js", ".expo/types/**/*.ts", "expo-env.d.ts"],
+    "include": ["src", "**/*.ts", "**/*.js", ".expo/types/**/*.ts", "expo-env.d.ts"],
     "exclude": ["node_modules"]
 }
