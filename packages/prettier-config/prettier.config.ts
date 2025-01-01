@@ -18,7 +18,6 @@ export const withBase = (config: Config) => ({
     importOrderGroupNamespaceSpecifiers: true,
 
     plugins: [
-        "prettier-plugin-organize-imports",
         "@trivago/prettier-plugin-sort-imports",
         ...(config.plugins ?? []),
     ],
