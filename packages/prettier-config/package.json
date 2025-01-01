@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "prettier.config.ts",
   "scripts": {
-    "build": "bun build ./prettier.config.ts --minify --target=node --outfile=dist/index.js",
+    "build": "bun build ./prettier.config.ts --minify --target=node --format=cjs --outfile=dist/index.js",
     "dev": "bun run build --watch",
     "format": "prettier --write **/*.{ts,js}"
   },
