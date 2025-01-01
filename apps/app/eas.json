@@ -28,11 +28,6 @@
     },
     "submit": {
         "production": {},
-        "preview": {
-            "ascAppId": "6740060781",
-            "appleTeamId": "V297ML4JYW",
-            "sku": "com.pulseshelf.app",
-            "bundleIdentifier": "com.pulseshelf.app",
-        }
+        "preview": {}
     }
 }
