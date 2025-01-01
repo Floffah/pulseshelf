@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "Pulseshelf",
+    "slug": "pulseshelf",
+    "scheme": "pulseshelf",
+    "version": "0.0.1",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#4b5563"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pulseshelf.ios"
+    },
+    "android": {
+      "package": "com.pulseshelf.android",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#4b5563"
+      }
+    },
+    "web": {
+        "favicon": "./assets/favicon.png"
+    },
+    "experiments": {
+      "tsconfigPaths": true,
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "plugins": ["expo-router"],
+    "extra": {
+      "eas": {
+        "projectId": "d1c42400-c039-4a29-b582-355e7bb778d9"
+      }
+    },
+    "owner": "floffah"
+  }
+}

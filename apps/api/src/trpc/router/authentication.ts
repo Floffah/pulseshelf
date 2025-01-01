@@ -9,7 +9,6 @@ import { z } from "zod";
 import { AuthError, SESSION_TOKEN } from "@pulseshelf/lib";
 import {
     db,
-    registrationInvites,
     userSessions,
     users,
 } from "@pulseshelf/models";
@@ -92,17 +91,6 @@ export const authenticationRouter = router({
             }),
         )
         .mutation(async ({ ctx, input }) => {
-            const invite = await db.query.registrationInvites.findFirst({
-                where: (invite) => eq(invite.email, input.email),
-            });
-
-            if (!invite) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: AuthError.NOT_INVITED,
-                });
-            }
-
             const existingWithEmail = await db.query.users.findFirst({
                 where: (user) => eq(user.email, input.email),
             });
@@ -138,10 +126,6 @@ export const authenticationRouter = router({
             const user = await db.query.users.findFirst({
                 where: (users) => eq(users.id, insertedIds[0].id),
             });
-
-            await db
-                .delete(registrationInvites)
-                .where(eq(registrationInvites.id, invite.id));
 
             return ctx.transform.user(user!);
         }),

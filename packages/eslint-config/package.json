@@ -1,0 +1,17 @@
+{
+  "name": "@pulseshelf/eslint-config",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./eslint.config.js",
+  "dependencies": {
+    "@pulseshelf/prettier-config": "workspace:*",
+    "@types/bun": "^1.1.14",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2"
+  }
+}

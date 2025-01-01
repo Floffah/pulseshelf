@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "next/core-web-vitals",
+    "extends": ["@pulseshelf/eslint-config", "next/core-web-vitals"],
     "rules": {
         "react/display-name": "off"
     }

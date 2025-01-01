@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "deps": "ncu -ws --root -x eslint",
+    "deps": "ncu -ws --root -x eslint -x react -x react-dom -x @types/react-dom -x @types/react --target semver",
     "build": "turbo run build",
     "start": "turbo run start",
     "dev": "turbo run dev",
@@ -14,17 +14,19 @@
     "test": "turbo run test"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "npm-check-updates": "^17.1.9",
-    "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.8",
-    "turbo": "^2.2.3",
-    "turbo-ignore": "^2.2.3"
+    "npm-check-updates": "^17.1.13",
+    "turbo": "^2.3.3",
+    "turbo-ignore": "^2.3.3"
   },
-  "packageManager": "bun@1.1.32",
+  "packageManager": "bun@1.1.42",
   "trustedDependencies": [
     "@swc/core",
     "@vercel/speed-insights",
-    "esbuild"
-  ]
+    "dtrace-provider",
+    "esbuild",
+    "sharp"
+  ],
+  "patchedDependencies": {
+    "react-strict-dom@0.0.32": "patches/react-strict-dom@0.0.32.patch"
+  }
 }

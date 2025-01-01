@@ -1,0 +1,31 @@
+diff --git a/node_modules/react-strict-dom/.bun-tag-33576c18475fd2b9 b/.bun-tag-33576c18475fd2b9
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/react-strict-dom/.bun-tag-b0f027d29cea1f5c b/.bun-tag-b0f027d29cea1f5c
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/node_modules/react-strict-dom/.bun-tag-be326a0a2206bc37 b/.bun-tag-be326a0a2206bc37
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/babel/preset.js b/babel/preset.js
+index ac671fa617fe1e921f70c368bb714551755c259d..200c18df0c51ee05187f39ca833dcb3eace3a8a8 100644
+--- a/babel/preset.js
++++ b/babel/preset.js
+@@ -7,6 +7,7 @@
+ 
+ const reactStrictPlugin = require('./plugin');
+ const styleXPlugin = require('@stylexjs/babel-plugin');
++const path = require('path');
+ 
+ const defaultOptions = {
+   debug: true,
+@@ -36,6 +37,9 @@ function reactStrictPreset(_, options = {}) {
+           type: 'commonJS'
+           //themeFileExtension: '.cssvars.js',
+         },
++        aliases: {
++          "@/*": [path.join(process.cwd(), "src/*")],
++        },
+         useRemForFontSize: false
+       }
+     ]
